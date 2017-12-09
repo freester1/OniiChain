@@ -1,7 +1,13 @@
 defmodule Oniichan.BlockServiceTest do
   use ExUnit.Case, async: false
-  import Oniichain.BlockService, only: [create_next_block: 1, is_block_valid: 2, get_latest_block: 0]
-    
+  import Oniichain.TestUtil, only: [reset_db: 0]
+  import Oniichain.BlockService, only: [create_next_block: 1, is_block_valid: 2, get_latest_block: 0, add_block: 1]
+  
+  setup do
+    reset_db()
+    :ok
+  end
+
   describe "create_next_block" do
     test "creates a valid block" do
       block = create_next_block("blargh")
@@ -25,6 +31,14 @@ defmodule Oniichan.BlockServiceTest do
       block = create_next_block("blargh")
       block = %{block | previous_hash: "boo"}
       assert is_block_valid(block, get_latest_block()) == false      
+    end
+  end
+
+  describe "get_latest_block" do
+    test "gets whatever is keyed in as :latest" do
+      block = create_next_block("blargh")
+      :ets.insert(:block_chain, {:latest, block})
+      assert get_latest_block() == block
     end
   end
 
