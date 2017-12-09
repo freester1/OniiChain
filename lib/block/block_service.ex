@@ -6,7 +6,7 @@ defmodule Oniichain.BlockService do
 
     # creates a new block based on the latest one
     def create_next_block(data) do
-        latest_block = :ets.lookup(:block_chain, :latest) |> hd |> elem(1)
+        latest_block = get_latest_block()
         index        = latest_block.index + 1
         timestamp    = :os.system_time(:seconds)
         hash         = generate_block_hash(index, latest_block.hash, timestamp, data)
@@ -19,14 +19,25 @@ defmodule Oniichain.BlockService do
         }
     end
 
-    def validate_block(new_block, previous_block) do
+    def is_block_valid(new_block, previous_block) do
         if new_block.index - 1 != previous_block.index 
         || new_block.previous_hash != previous_block.hash 
         || generate_hash_from_block(new_block) != new_block.hash do
-            Logger.debug("Invalid block new_block: #{new_block} prev_block: #{previous_block}")
+            Logger.debug("Invalid block new_block: #{inspect new_block} prev_block: #{inspect previous_block}")
             false
+        else
+            true
         end
-        true
+    end
+
+    def add_block(block) do
+        if is_block_valid(block, get_latest_block()) do
+            :ets.insert(:block_chain, {:latest, block})
+        end
+    end
+
+    def get_latest_block() do
+        :ets.lookup(:block_chain, :latest) |> hd |> elem(1)        
     end
 
     defp generate_hash_from_block(block) do

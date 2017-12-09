@@ -20,7 +20,7 @@ defmodule Oniichain.Application do
     Supervisor.start_link(children, opts)
   end
 
-  defp initialize_datastore() do
+  def initialize_datastore() do
     :ets.new(:block_chain, [:set, :public, :named_table])
     generate_initial_block()
   end
