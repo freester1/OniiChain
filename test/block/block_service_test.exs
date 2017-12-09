@@ -27,5 +27,19 @@ defmodule Oniichan.BlockServiceTest do
       assert is_block_valid(block, get_latest_block()) == false      
     end
   end
+
+  describe "add_block" do
+    test "adds the given valid block as the new latest block" do
+      block = create_next_block("blargh")
+      add_block(block)
+      assert get_latest_block() == block      
+    end
+
+    test "does not change the latest block if the given block is invalid" do
+      block = create_next_block("blargh")
+      block = %{block | previous_hash: "boo"}
+      assert get_latest_block() != block
+    end
+  end
 end
   
