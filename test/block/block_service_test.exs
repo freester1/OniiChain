@@ -43,10 +43,11 @@ defmodule Oniichan.BlockServiceTest do
   end
 
   describe "add_block" do
-    test "adds the given valid block as the new latest block" do
+    test "adds the given valid block as the new latest block and at that block index" do
       block = create_next_block("blargh")
       add_block(block)
-      assert get_latest_block() == block      
+      assert get_latest_block() == block
+      assert :ets.lookup(:block_chain, block.index) |> hd |> elem(1) == block      
     end
 
     test "does not change the latest block if the given block is invalid" do

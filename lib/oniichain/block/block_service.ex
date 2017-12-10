@@ -33,6 +33,7 @@ defmodule Oniichain.BlockService do
   def add_block(block) do
     if is_block_valid(block, get_latest_block()) do
         :ets.insert(:block_chain, {:latest, block})
+        :ets.insert(:block_chain, {block.index, block})
     end
   end
 
