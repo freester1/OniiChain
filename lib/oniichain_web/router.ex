@@ -5,7 +5,7 @@ defmodule OniichainWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", OniichainWeb do
+  scope "/oniichain/v1", OniichainWeb do
     pipe_through :api # Use the default browser stack
 
     post "/block", BlockController, :add_block

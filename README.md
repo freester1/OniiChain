@@ -4,10 +4,10 @@
 ### Api so far:
 ```
 add block:
-curl -H 'Content-Type: application/json' localhost:4000/api/block -X POST -d '{"data": "minecraftIzCool"}'
+curl -H 'Content-Type: application/json' localhost:4000/oniichain/v1/block -X POST -d '{"data": "minecraftIzCool"}'
 
 get all blocks:
-curl localhost:4000/api/blocks
+curl localhost:4000/oniichain/v1/blocks
 ```
 ## Installation
 

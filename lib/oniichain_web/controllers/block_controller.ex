@@ -12,7 +12,9 @@ defmodule OniichainWeb.BlockController do
       |> Enum.filter(fn(block_entry) -> 
         elem(block_entry, 0) != :latest
       end)
-      |> Enum.map(fn (block_entry) -> block_entry |> elem(1) end)
+      |> Enum.map(fn (block_entry) -> 
+        block_entry |> elem(1) 
+      end)
     render(conn, "blocks.json", %{blocks: all_blocks})
   end 
 end

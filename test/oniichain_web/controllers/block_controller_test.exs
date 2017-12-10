@@ -13,7 +13,7 @@ defmodule OniichainWeb.BlockControllerTest do
     test "adds a block to the block chain with the given data", %{conn: _} do
       old_block = get_latest_block()
       data      = "wow data"
-      post(build_conn(), "/api/block", [data: data])
+      post(build_conn(), "/oniichain/v1/block", [data: data])
       assert get_latest_block() != old_block
       assert get_latest_block().data == data
     end
@@ -21,9 +21,9 @@ defmodule OniichainWeb.BlockControllerTest do
 
   describe "get_all_blocks" do
     test "retrieves all of the blocks in the ets table", %{conn: _} do
-      latest_block = get_latest_block()
-      num_blocks = latest_block.index + 1
-      conn = get(build_conn(), block_path(build_conn(), :get_all_blocks))
+      latest_block  = get_latest_block()
+      num_blocks    = latest_block.index + 1
+      conn          = get(build_conn(), block_path(build_conn(), :get_all_blocks))
       json_response = json_response(conn, 200)
       assert json_response
       assert length(json_response["blocks"]) == num_blocks
