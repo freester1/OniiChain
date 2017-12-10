@@ -6,8 +6,11 @@ defmodule Oniichain.Application do
   use Application
 
   def start(_type, _args) do
+    import Supervisor.Spec
+    
     # List all child processes to be supervised
     children = [
+      supervisor(OniichainWeb.Endpoint, []),      
       # Starts a worker by calling: Test.Worker.start_link(arg)
       # {Test.Worker, arg},
     ]
@@ -16,8 +19,15 @@ defmodule Oniichain.Application do
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Test.Supervisor]
+    opts = [strategy: :one_for_one, name: Oniichain.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  # Tell Phoenix to update the endpoint configuration
+  # whenever the application is updated.
+  def config_change(changed, _new, removed) do
+    OniichainWeb.Endpoint.config_change(changed, removed)
+    :ok
   end
 
   def initialize_datastore() do
