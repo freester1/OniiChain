@@ -9,7 +9,7 @@ defmodule Oniichain.Mixfile do
       start_permanent: Mix.env == :prod,
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
-      aliases: aliases(),      
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -31,7 +31,8 @@ defmodule Oniichain.Mixfile do
       {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:ksuid, "~> 0.1.2"}
     ]
   end
   defp aliases do

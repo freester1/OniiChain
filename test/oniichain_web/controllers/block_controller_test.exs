@@ -4,6 +4,7 @@ defmodule OniichainWeb.BlockControllerTest do
   use ExUnit.Case, async: false
   import Oniichain.TestUtil, only: [reset_db: 0]
   import Oniichain.BlockService, only: [get_latest_block: 0]
+
   setup do
     reset_db()
     {:ok, conn: put_req_header(build_conn(), "accept", "application/json")}
@@ -26,7 +27,7 @@ defmodule OniichainWeb.BlockControllerTest do
       conn          = get(build_conn(), block_path(build_conn(), :get_all_blocks))
       json_response = json_response(conn, 200)
       assert json_response
-      assert length(json_response["blocks"]) == num_blocks
+      assert json_response["blocks"] |> length == num_blocks
     end
   end
 end
