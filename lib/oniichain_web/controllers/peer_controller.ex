@@ -12,4 +12,12 @@ defmodule OniichainWeb.PeerController do
 
     render(conn, "200.json", %{})
   end
+
+  def get_all_peers(conn, _) do
+    peers = :ets.tab2list(:peers)
+      |> Enum.map(fn (peer_entry) ->
+        peer_entry |> elem(1)
+      end)
+      render(conn, "peers.json", %{peers: peers})
+  end
 end

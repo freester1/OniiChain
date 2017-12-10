@@ -3,4 +3,8 @@ defmodule OniichainWeb.PeerView do
   def render("200.json", %{}) do
     %{}
   end
+
+  def render("peers.json", %{peers: peers}) do
+    %{peers: peers}
+  end
 end

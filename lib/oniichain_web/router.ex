@@ -12,5 +12,6 @@ defmodule OniichainWeb.Router do
     get "/blocks", BlockController, :get_all_blocks
 
     post "/peer", PeerController, :add_peer
+    get "/peers", PeerController, :get_all_peers
   end
 end
