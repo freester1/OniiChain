@@ -1,7 +1,14 @@
 # Oniichain
 
 **TODO: Add description**
+### Api so far:
+```
+add block:
+curl -H 'Content-Type: application/json' localhost:4000/api/block -X POST -d '{"data": "minecraftIzCool"}'
 
+get all blocks:
+curl localhost:4000/api/blocks
+```
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
