@@ -34,7 +34,7 @@ defmodule Oniichain.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:ksuid, "~> 0.1.2"},
-      {:websocket_client, github: "jeremyong/websocket_client"}
+      {:websockex, "~> 0.4.0"}
     ]
   end
   defp aliases do
