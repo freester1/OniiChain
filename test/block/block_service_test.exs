@@ -22,7 +22,8 @@ defmodule Oniichan.BlockServiceTest do
       assert is_block_valid(block, get_latest_block()) == false      
     end
 
-    test "returns false if the new block has an invalid hash" do        block = create_next_block("blargh")
+    test "returns false if the new block has an invalid hash" do        
+      block = create_next_block("blargh")
       block = %{block | hash: "boo"}
       assert is_block_valid(block, get_latest_block()) == false      
     end

@@ -7,7 +7,7 @@ defmodule OniichainWeb.Router do
 
   scope "/api", OniichainWeb do
     pipe_through :api # Use the default browser stack
-
-    #get "/", Block, :index
+    
+    post "/mine_block", BlockController, :add_block
   end
 end
