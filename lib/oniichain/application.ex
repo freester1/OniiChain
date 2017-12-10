@@ -7,10 +7,10 @@ defmodule Oniichain.Application do
 
   def start(_type, _args) do
     import Supervisor.Spec
-    
+
     # List all child processes to be supervised
     children = [
-      supervisor(OniichainWeb.Endpoint, []),      
+      supervisor(OniichainWeb.Endpoint, []),
       # Starts a worker by calling: Test.Worker.start_link(arg)
       # {Test.Worker, arg},
     ]
@@ -38,9 +38,9 @@ defmodule Oniichain.Application do
   defp generate_initial_block() do
     init_block = %Oniichain.Block{
       index: 0,
-      previous_hash: "0", 
-      timestamp: :os.system_time(:seconds), 
-      data: "foofizzbazz", 
+      previous_hash: "0",
+      timestamp: :os.system_time(:seconds),
+      data: "foofizzbazz",
       hash: :crypto.hash(:sha256, "cool") |> Base.encode64
     }
     :ets.insert(:block_chain, {0, init_block})

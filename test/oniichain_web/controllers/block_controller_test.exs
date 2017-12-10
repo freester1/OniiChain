@@ -4,6 +4,7 @@ defmodule OniichainWeb.BlockControllerTest do
   use ExUnit.Case, async: false
   import Oniichain.TestUtil, only: [reset_db: 0]
   import Oniichain.BlockService, only: [get_latest_block: 0]
+
   setup do
     reset_db()
     {:ok, conn: put_req_header(build_conn(), "accept", "application/json")}

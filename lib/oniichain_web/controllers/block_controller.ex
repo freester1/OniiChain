@@ -8,13 +8,13 @@ defmodule OniichainWeb.BlockController do
   end
 
   def get_all_blocks(conn, _) do
-    all_blocks = :ets.tab2list(:block_chain) 
-      |> Enum.filter(fn(block_entry) -> 
+    all_blocks = :ets.tab2list(:block_chain)
+      |> Enum.filter(fn(block_entry) ->
         elem(block_entry, 0) != :latest
       end)
-      |> Enum.map(fn (block_entry) -> 
-        block_entry |> elem(1) 
+      |> Enum.map(fn (block_entry) ->
+        block_entry |> elem(1)
       end)
     render(conn, "blocks.json", %{blocks: all_blocks})
-  end 
+  end
 end

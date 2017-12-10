@@ -9,7 +9,7 @@ defmodule Oniichain.BlockService do
     latest_block = get_latest_block()
     index        = latest_block.index + 1
     timestamp    = :os.system_time(:seconds)
-    hash         = generate_block_hash(index, latest_block.hash, timestamp, data)      
+    hash         = generate_block_hash(index, latest_block.hash, timestamp, data)
     %Oniichain.Block{
       index: index,
       previous_hash: latest_block.hash,

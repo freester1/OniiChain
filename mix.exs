@@ -9,7 +9,7 @@ defmodule Oniichain.Mixfile do
       start_permanent: Mix.env == :prod,
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
-      aliases: aliases(),      
+      aliases: aliases(),
       deps: deps()
     ]
   end
