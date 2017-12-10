@@ -4,5 +4,9 @@ defmodule OniichainWeb.BlockView do
     def render("200.json", %{}) do
       %{}
     end
+
+    def render("blocks.json", %{blocks: blocks}) do
+      %{blocks: blocks}
+    end
   end
   

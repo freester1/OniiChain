@@ -9,5 +9,6 @@ defmodule OniichainWeb.Router do
     pipe_through :api # Use the default browser stack
 
     post "/block", BlockController, :add_block
+    get "/blocks", BlockController, :get_all_blocks
   end
 end

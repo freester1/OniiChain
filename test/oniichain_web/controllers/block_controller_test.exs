@@ -18,4 +18,15 @@ defmodule OniichainWeb.BlockControllerTest do
       assert get_latest_block().data == data
     end
   end
+
+  describe "get_all_blocks" do
+    test "retrieves all of the blocks in the ets table", %{conn: _} do
+      latest_block = get_latest_block()
+      num_blocks = latest_block.index + 1
+      conn = get(build_conn(), block_path(build_conn(), :get_all_blocks))
+      json_response = json_response(conn, 200)
+      assert json_response
+      assert length(json_response["blocks"]) == num_blocks
+    end
+  end
 end
