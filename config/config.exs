@@ -13,7 +13,7 @@ config :oniichain,
 config :oniichain, OniichainWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "7CYNhBlNZ6lP8tL5UOyGIRfI7fNkKqWL+BSN41EpzFOrfLrn7+KBN0REHIoKGRlW",
-  render_errors: [view: OniichainWeb.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: OniichainWeb.ErrorView, accepts: ~w(json)],
   pubsub: [name: Oniichain.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
