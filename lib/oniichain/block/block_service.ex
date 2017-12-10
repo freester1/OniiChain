@@ -45,7 +45,6 @@ defmodule Oniichain.BlockService do
     generate_block_hash(block.index, block.previous_hash, block.timestamp, block.data)
   end
 
-  # generates a block hash
   defp generate_block_hash(index, previous_hash, timestamp, data) do
     :crypto.hash(:sha256, "#{index}#{previous_hash}#{timestamp}#{data}")
     |> Base.encode64

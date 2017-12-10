@@ -31,6 +31,7 @@ defmodule Oniichain.Application do
   end
 
   def initialize_datastore() do
+    :ets.new(:peers, [:set, :public, :named_table])
     :ets.new(:block_chain, [:set, :public, :named_table])
     generate_initial_block()
   end

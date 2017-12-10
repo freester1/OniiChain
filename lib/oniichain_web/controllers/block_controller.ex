@@ -1,5 +1,8 @@
 defmodule OniichainWeb.BlockController do
   use OniichainWeb, :controller
+  @moduledoc """
+    Functionality related to blocks in the block chain
+  """
 
   def add_block(conn, payload) do
     block = Oniichain.BlockService.create_next_block(payload["data"])
