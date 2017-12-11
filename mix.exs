@@ -1,5 +1,6 @@
 defmodule Oniichain.Mixfile do
   use Mix.Project
+  alias Poison, as: JSON
 
   def project do
     [
@@ -32,7 +33,10 @@ defmodule Oniichain.Mixfile do
       {:phoenix_pubsub, "~> 1.0"},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:ksuid, "~> 0.1.2"}
+      {:ksuid, "~> 0.1.2"},
+      {:phoenix_gen_socket_client, "~> 2.0.0"},
+      {:websocket_client, "~> 1.2"},
+      {:poison, "~> 2.0"}
     ]
   end
   defp aliases do
