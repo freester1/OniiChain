@@ -1,6 +1,5 @@
 defmodule Oniichain.Mixfile do
   use Mix.Project
-  alias Poison, as: JSON
 
   def project do
     [
