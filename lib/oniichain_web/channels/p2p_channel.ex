@@ -16,12 +16,12 @@ defmodule OniichainWeb.P2pChannel do
 
   def handle_in(@query_latest_block, payload, socket) do
     Logger.info("so u want the latest block")
-    {:reply, {:ok, payload}, socket}
+    {:reply, {:ok, Oniichain.BlockService.get_latest_block()}, socket}
   end
 
   def handle_in(@query_all_blocks, payload, socket) do
     Logger.info("so u want all the blocks")
-    {:reply, {:ok, payload}, socket}
+    {:reply, {:ok, Oniichain.BlockService.get_all_blocks()}, socket}
   end
 
   def handle_in(event, payload, socket) do

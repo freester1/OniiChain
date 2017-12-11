@@ -1,6 +1,7 @@
 defmodule Oniichain.P2pClientHandler do
   @moduledoc """
-  Receives and handles messages over websocket
+  Receives and handles messages over websocket.
+  Responsible for keeping the block chain in sync.
   """
   require Logger
   alias Phoenix.Channels.GenSocketClient
@@ -11,16 +12,16 @@ defmodule Oniichain.P2pClientHandler do
   @query_all_blocks   Oniichain.P2pMessage.query_all_blocks
   @update_block_chain Oniichain.P2pMessage.update_block_chain
 
-  def start_link(host, port, session_manager_pid) do
+  def start_link(host, port) do
     GenSocketClient.start_link(
           __MODULE__,
           Phoenix.Channels.GenSocketClient.Transport.WebSocketClient,
-          {"ws://#{host}:#{port}/p2p/websocket", session_manager_pid}
+          "ws://#{host}:#{port}/p2p/websocket"
         )
   end
 
-  def init({url, session_manager_pid}) do
-    {:connect, url, [], %{session_manager_pid: session_manager_pid}}
+  def init(url) do
+    {:connect, url, [], %{}}
   end
 
   def handle_connected(transport, state) do
@@ -57,7 +58,7 @@ defmodule Oniichain.P2pClientHandler do
   end
 
   def handle_reply("p2p", _ref, %{"status" => "ok"} = payload, _transport, state) do
-    Logger.info("server ack ##{payload["response"]}")
+    Logger.info("server ack ##{inspect payload["response"]}")
     {:ok, state}
   end
 
@@ -84,14 +85,14 @@ defmodule Oniichain.P2pClientHandler do
   end
 
   def handle_info(@query_latest_block, transport, state) do
-    Logger.info("sending ping ##{state}")
-    GenSocketClient.push(transport, "p2p", @query_latest_block, %{ping_ref: state.ping_ref})
+    Logger.info("sending ping ##{inspect state}")
+    GenSocketClient.push(transport, "p2p", @query_latest_block, %{})
     {:ok, state}
   end
 
   def handle_info(@query_all_blocks, transport, state) do
     Logger.info("i want all blocks")
-    GenSocketClient.push(transport, "p2p", @query_all_blocks, %{ping_ref: state.ping_ref})
+    GenSocketClient.push(transport, "p2p", @query_all_blocks, %{})
     {:ok, state}
   end
 

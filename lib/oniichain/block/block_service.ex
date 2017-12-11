@@ -41,6 +41,15 @@ defmodule Oniichain.BlockService do
     :ets.lookup(:block_chain, :latest) |> hd |> elem(1)
   end
 
+  def get_all_blocks() do
+    :ets.tab2list(:block_chain)
+    |> Enum.filter(fn(block_entry) ->
+      elem(block_entry, 0) != :latest
+    end)
+    |> Enum.map(fn (block_entry) ->
+      block_entry |> elem(1)
+    end)
+  end
   defp generate_hash_from_block(block) do
     generate_block_hash(block.index, block.previous_hash, block.timestamp, block.data)
   end
