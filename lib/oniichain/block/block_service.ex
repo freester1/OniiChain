@@ -5,12 +5,14 @@ defmodule Oniichain.BlockService do
   TODO: refactor :ets work into its own module
   """
 
-  def synchronize_blockchain(remote_block_chain) do
+  def synchronize_blockchain([_ | _] = remote_block_chain) do
     # find latest block in this chain
     remote_latest_block = remote_block_chain
-      |> Enum.reduce(%{index: -1}, fn(block, acc) ->
+      |> Enum.reduce(%{index: 0}, fn(block, acc) ->
         if (block.index > acc.index) do
-          acc = block
+          block
+        else
+          acc
         end
     end)
 
@@ -27,7 +29,7 @@ defmodule Oniichain.BlockService do
   end
 
   defp replace_chain(block_chain, latest_block) do
-    :ets.delete_all_object(:block_chain)
+    :ets.delete_all_objects(:block_chain)
     :ets.insert(:block_chain, {:latest, latest_block})
     block_chain
     |> Enum.each(fn(block) ->
