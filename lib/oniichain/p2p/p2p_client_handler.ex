@@ -85,13 +85,13 @@ defmodule Oniichain.P2pClientHandler do
   end
 
   def handle_info(@query_latest_block, transport, state) do
-    Logger.info("sending ping ##{inspect state}")
+    Logger.info("quering for latest blocks")
     GenSocketClient.push(transport, "p2p", @query_latest_block, %{})
     {:ok, state}
   end
 
   def handle_info(@query_all_blocks, transport, state) do
-    Logger.info("i want all blocks")
+    Logger.info("querying for all blocks")
     GenSocketClient.push(transport, "p2p", @query_all_blocks, %{})
     {:ok, state}
   end

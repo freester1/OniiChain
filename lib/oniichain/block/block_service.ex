@@ -2,7 +2,38 @@ defmodule Oniichain.BlockService do
   require Logger
   @moduledoc """
   Operations for blocks
+  TODO: refactor :ets work into its own module
   """
+
+  def synchronize_blockchain(remote_block_chain) do
+    # find latest block in this chain
+    remote_latest_block = remote_block_chain
+      |> Enum.reduce(%{index: -1}, fn(block, acc) ->
+        if (block.index > acc.index) do
+          acc = block
+        end
+    end)
+
+    local_latest_block = get_latest_block()
+    if (remote_latest_block.index > local_latest_block.index) do
+      if (remote_latest_block.previousHash == local_latest_block.hash) do
+        add_block(remote_latest_block)
+      else
+        # remote peers chain is longer
+        # TODO: don't do this lol
+        replace_chain(remote_block_chain, remote_latest_block)
+      end
+    end
+  end
+
+  defp replace_chain(block_chain, latest_block) do
+    :ets.delete_all_object(:block_chain)
+    :ets.insert(:block_chain, {:latest, latest_block})
+    block_chain
+    |> Enum.each(fn(block) ->
+      :ets.insert(:block_chain, {block.index, block})
+    end)
+  end
 
   # creates a new block based on the latest one
   def create_next_block(data) do
@@ -50,6 +81,7 @@ defmodule Oniichain.BlockService do
       block_entry |> elem(1)
     end)
   end
+
   defp generate_hash_from_block(block) do
     generate_block_hash(block.index, block.previous_hash, block.timestamp, block.data)
   end
