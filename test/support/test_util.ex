@@ -1,8 +1,9 @@
 ## reset ets
 defmodule Oniichain.TestUtil do
   def reset_db() do
-    maybe_delete_ets_table(:block_chain)
+    :mnesia.clear_table(:block_chain)
     maybe_delete_ets_table(:peers)
+    maybe_delete_ets_table(:latest_block)
     Oniichain.Application.initialize_datastore()
   end
 

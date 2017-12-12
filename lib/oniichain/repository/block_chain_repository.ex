@@ -5,7 +5,7 @@ defmodule Oniichain.BlockChainRepository do
   """
 
   def insert_block(block) do
-    {:atomic, _} = :mnesia.transaction(fn ->
+    {:atomic, :ok} = :mnesia.transaction(fn ->
       :mnesia.write({:block_chain,
         block.index,
         block.previous_hash,
@@ -13,6 +13,7 @@ defmodule Oniichain.BlockChainRepository do
         block.data,
         block.hash})
     end)
+    :ok
   end
 
   def get_all_blocks() do
@@ -36,11 +37,11 @@ defmodule Oniichain.BlockChainRepository do
 
   def deserialize_block_from_record(record) do
     %Oniichain.Block{
-      index:         elem(record, 0),
-      previous_hash: elem(record, 1),
-      timestamp:     elem(record, 2),
-      data:          elem(record, 3),
-      hash:          elem(record, 4)
+      index:         elem(record, 1),
+      previous_hash: elem(record, 2),
+      timestamp:     elem(record, 3),
+      data:          elem(record, 4),
+      hash:          elem(record, 5)
     }
   end
 end
