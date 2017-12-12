@@ -21,7 +21,7 @@ defmodule OniichainWeb.P2pChannel do
 
   def handle_in(@query_all_blocks, payload, socket) do
     Logger.info("sending all blocks to #{inspect socket}")
-    {:reply, {:ok, Oniichain.BlockService.get_all_blocks()}, socket}
+    {:reply, {:ok, Oniichain.BlockChainRepository.get_all_blocks()}, socket}
   end
 
   def handle_in(event, payload, socket) do

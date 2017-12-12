@@ -31,9 +31,15 @@ defmodule Oniichain.Application do
   end
 
   def initialize_datastore() do
+    initialize_db()
     :ets.new(:peers, [:set, :public, :named_table])
-    :ets.new(:block_chain, [:set, :public, :named_table])
+    :ets.new(:latest_block, [:set, :public, :named_table])
     generate_initial_block()
+  end
+
+  defp initialize_db() do
+    :mnesia.start()
+    :ok = :mnesia.wait_for_tables([:block_chain], 5000)
   end
 
   defp generate_initial_block() do
@@ -44,7 +50,19 @@ defmodule Oniichain.Application do
       data: "foofizzbazz",
       hash: :crypto.hash(:sha256, "cool") |> Base.encode64
     }
-    :ets.insert(:block_chain, {0, init_block})
-    :ets.insert(:block_chain, {:latest, init_block})
+    :mnesia.transaction(fn ->
+      case :mnesia.read({:block_chain, 0}) do
+        [] ->
+          :mnesia.write({:block_chain,
+            init_block.index,
+            init_block.previous_hash,
+            init_block.timestamp,
+            init_block.data,
+            init_block.hash})
+            :ets.insert(:latest_block, {:latest, init_block})
+        _ ->
+          :ok
+      end
+    end)
   end
 end

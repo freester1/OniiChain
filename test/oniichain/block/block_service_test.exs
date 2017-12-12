@@ -38,7 +38,7 @@ defmodule Oniichan.BlockServiceTest do
   describe "get_latest_block" do
     test "gets whatever is keyed in as :latest" do
       block = create_next_block("blargh")
-      :ets.insert(:block_chain, {:latest, block})
+      :ets.insert(:latest_block, {:latest, block})
       assert get_latest_block() == block
     end
   end
@@ -48,7 +48,6 @@ defmodule Oniichan.BlockServiceTest do
       block = create_next_block("blargh")
       add_block(block)
       assert get_latest_block() == block
-      assert :ets.lookup(:block_chain, block.index) |> hd |> elem(1) == block
     end
 
     test "does not change the latest block if the given block is invalid" do

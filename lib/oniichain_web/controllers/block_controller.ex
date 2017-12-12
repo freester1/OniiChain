@@ -11,7 +11,7 @@ defmodule OniichainWeb.BlockController do
   end
 
   def get_all_blocks(conn, _) do
-    all_blocks = Oniichain.BlockService.get_all_blocks()
+    all_blocks = Oniichain.BlockChainRepository.get_all_blocks()
     render(conn, "blocks.json", %{blocks: all_blocks})
   end
 end

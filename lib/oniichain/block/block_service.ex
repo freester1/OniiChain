@@ -23,19 +23,11 @@ defmodule Oniichain.BlockService do
       else
         # remote peers chain is longer
         # TODO: don't do this lol
-        replace_chain(remote_block_chain, remote_latest_block)
+        Oniichain.BlockChainRepository.replace_chain(remote_block_chain, remote_latest_block)
       end
     end
   end
 
-  defp replace_chain(block_chain, latest_block) do
-    :ets.delete_all_objects(:block_chain)
-    :ets.insert(:block_chain, {:latest, latest_block})
-    block_chain
-    |> Enum.each(fn(block) ->
-      :ets.insert(:block_chain, {block.index, block})
-    end)
-  end
 
   # creates a new block based on the latest one
   def create_next_block(data) do
@@ -44,11 +36,11 @@ defmodule Oniichain.BlockService do
     timestamp    = :os.system_time(:seconds)
     hash         = generate_block_hash(index, latest_block.hash, timestamp, data)
     %Oniichain.Block{
-      index: index,
+      index:         index,
       previous_hash: latest_block.hash,
-      timestamp: timestamp,
-      data: data,
-      hash: hash
+      timestamp:     timestamp,
+      data:          data,
+      hash:          hash
     }
   end
 
@@ -65,23 +57,20 @@ defmodule Oniichain.BlockService do
 
   def add_block(block) do
     if is_block_valid(block, get_latest_block()) do
-        :ets.insert(:block_chain, {:latest, block})
-        :ets.insert(:block_chain, {block.index, block})
+      Oniichain.BlockChainRepository.insert_block(block)
+      :ets.insert(:latest_block, {:latest, block})
     end
   end
 
   def get_latest_block() do
-    :ets.lookup(:block_chain, :latest) |> hd |> elem(1)
-  end
-
-  def get_all_blocks() do
-    :ets.tab2list(:block_chain)
-    |> Enum.filter(fn(block_entry) ->
-      elem(block_entry, 0) != :latest
-    end)
-    |> Enum.map(fn (block_entry) ->
-      block_entry |> elem(1)
-    end)
+    case :ets.lookup(:latest_block, :latest) do
+      [] ->
+        block = Oniichain.BlockChainRepository.get_latest_block()
+        :ets.insert(:latest_block, {:latest, block})
+        block
+    list ->
+      list |> hd |> elem(1)
+    end
   end
 
   defp generate_hash_from_block(block) do
