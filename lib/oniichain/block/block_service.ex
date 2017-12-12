@@ -58,16 +58,13 @@ defmodule Oniichain.BlockService do
   def add_block(block) do
     if is_block_valid(block, get_latest_block()) do
       Oniichain.BlockChainRepository.insert_block(block)
-      :ets.insert(:latest_block, {:latest, block})
     end
   end
 
   def get_latest_block() do
     case :ets.lookup(:latest_block, :latest) do
       [] ->
-        block = Oniichain.BlockChainRepository.get_latest_block()
-        :ets.insert(:latest_block, {:latest, block})
-        block
+        Oniichain.BlockChainRepository.get_latest_block()
     list ->
       list |> hd |> elem(1)
     end

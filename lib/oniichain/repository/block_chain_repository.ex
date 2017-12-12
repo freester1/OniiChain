@@ -5,13 +5,14 @@ defmodule Oniichain.BlockChainRepository do
   """
 
   def insert_block(block) do
-    {:atomic, :ok} = :mnesia.transaction(fn ->
+    {:atomic, _} = :mnesia.transaction(fn ->
       :mnesia.write({:block_chain,
         block.index,
         block.previous_hash,
         block.timestamp,
         block.data,
         block.hash})
+        :ets.insert(:latest_block, {:latest, block})
     end)
     :ok
   end
@@ -36,7 +37,7 @@ defmodule Oniichain.BlockChainRepository do
   end
 
   def get_latest_block() do
-    get_all_blocks()
+    block = get_all_blocks()
     |> Enum.reduce(%{index: -1}, fn(block, acc) ->
       if (block.index > acc.index) do
         block
@@ -44,6 +45,8 @@ defmodule Oniichain.BlockChainRepository do
         acc
       end
     end)
+    :ets.insert(:latest_block, {:latest, block})
+    block
   end
 
   def deserialize_block_from_record(record) do
