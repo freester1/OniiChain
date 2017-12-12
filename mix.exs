@@ -39,7 +39,6 @@ defmodule Oniichain.Mixfile do
     ]
   end
   defp aliases do
-    [
-    ]
+    []
   end
 end
