@@ -3,6 +3,7 @@ defmodule Oniichan.BlockChainRepositoryTest do
   import Oniichain.TestUtil, only: [reset_db: 0]
   import Oniichain.BlockService, only: [create_next_block: 1]
   import Oniichain.BlockChainRepository, only: [insert_block: 1, get_all_blocks: 0]
+
   setup do
     reset_db()
     :ok
