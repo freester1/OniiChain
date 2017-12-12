@@ -1,0 +1,15 @@
+{
+  "skip_files": [
+	"lib/mix/tasks/init_db.ex",
+	"lib/oniichain.ex",
+	"lib/oniichain/block/block.ex",
+	"lib/oniichain_web.ex",
+	"lib/oniichain_web/endpoint.ex",
+	"lib/oniichain_web/gettext.ex",
+	"lib/oniichain_web/router.ex",
+	"lib/oniichain_web/views/error_helpers.ex",
+	"lib/oniichain_web/views/error_view.ex",
+	"lib/oniichain_web/channels/p2p_channel.ex",
+	"lib/oniichain_web/channels/p2p_socket.ex"
+  ]
+}
