@@ -15,6 +15,11 @@ run phoenix (port env var optional)
 PORT=4444 mix phx.server
 ```
 
+code coverage
+```
+mix coveralls
+```
+
 ## Api so far:
 ```
 add block:

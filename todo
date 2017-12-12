@@ -1,3 +1,2 @@
  - flesh p2p sync logic, broadcasting stuff
  - unit test block service functions, websocket functionality
- - move ALL ets logic into a separate module, because it's gonna be removed for another datastore soon

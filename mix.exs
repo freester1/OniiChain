@@ -10,7 +10,14 @@ defmodule Oniichain.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        "coveralls":        :test,
+        "coveralls.detail": :test,
+        "coveralls.post":   :test,
+        "coveralls.html":   :test
+      ],
     ]
   end
 
@@ -35,7 +42,8 @@ defmodule Oniichain.Mixfile do
       {:ksuid, "~> 0.1.2"},
       {:phoenix_gen_socket_client, "~> 2.0.0"},
       {:websocket_client, "~> 1.2"},
-      {:poison, "~> 2.0"}
+      {:poison, "~> 2.0"},
+      {:excoveralls, "~> 0.7", only: :test}
     ]
   end
   defp aliases do

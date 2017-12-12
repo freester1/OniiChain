@@ -14,7 +14,7 @@ defmodule Oniichain.BlockService do
         else
           acc
         end
-    end)
+      end)
 
     local_latest_block = get_latest_block()
     if (remote_latest_block.index > local_latest_block.index) do
