@@ -63,7 +63,14 @@ defmodule Oniichain.BlockService do
   end
 
   def get_latest_block() do
-    :ets.lookup(:latest_block, :latest) |> hd |> elem(1)
+    case :ets.lookup(:latest_block, :latest) do
+      [] ->
+        block = Oniichain.BlockChainRepository.get_latest_block()
+        :ets.insert(:latest_block, {:latest, block})
+        block
+    list ->
+      list |> hd |> elem(1)
+    end
   end
 
   defp generate_hash_from_block(block) do

@@ -35,6 +35,17 @@ defmodule Oniichain.BlockChainRepository do
     :ets.insert(:latest_block, {:latest, latest_block})
   end
 
+  def get_latest_block() do
+    get_all_blocks()
+    |> Enum.reduce(%{index: -1}, fn(block, acc) ->
+      if (block.index > acc.index) do
+        block
+      else
+        acc
+      end
+    end)
+  end
+
   def deserialize_block_from_record(record) do
     %Oniichain.Block{
       index:         elem(record, 1),

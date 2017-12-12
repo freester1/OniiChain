@@ -59,10 +59,10 @@ defmodule Oniichain.Application do
             init_block.timestamp,
             init_block.data,
             init_block.hash})
+            :ets.insert(:latest_block, {:latest, init_block})
         _ ->
           :ok
       end
     end)
-    :ets.insert(:latest_block, {:latest, init_block})
   end
 end
