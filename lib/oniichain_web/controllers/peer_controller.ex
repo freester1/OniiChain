@@ -7,9 +7,7 @@ defmodule OniichainWeb.PeerController do
   def add_peer(conn, peer_data) do
     host = peer_data["host"]
     port = peer_data["port"]
-    :ets.insert(:peers, {Ksuid.generate(), %{host: host, port: port}})
-    #TODO: connect to peer
-
+    Oniichain.P2pSessionManager.connect(host, port)
     render(conn, "200.json", %{})
   end
 
