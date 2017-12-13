@@ -11,6 +11,7 @@ defmodule Oniichain.P2pClientHandler do
   @query_latest_block Oniichain.P2pMessage.query_latest_block
   @query_all_blocks   Oniichain.P2pMessage.query_all_blocks
   @update_block_chain Oniichain.P2pMessage.update_block_chain
+  @add_peer_request   Oniichain.P2pMessage.add_peer_request
 
   def start_link(host, port) do
     GenSocketClient.start_link(
@@ -62,6 +63,10 @@ defmodule Oniichain.P2pClientHandler do
     {:ok, state}
   end
 
+  # def handle_reply("p2p", _ref, %{"status" => "fail"} = payload, _transport, state) do
+
+  # end
+
   def handle_reply(topic, _ref, payload, _transport, state) do
     Logger.warn("reply on topic #{topic}: #{inspect payload}")
     {:ok, state}
@@ -93,6 +98,14 @@ defmodule Oniichain.P2pClientHandler do
   def handle_info(@query_all_blocks, transport, state) do
     Logger.info("querying for all blocks")
     GenSocketClient.push(transport, "p2p", @query_all_blocks, %{})
+    {:ok, state}
+  end
+
+  def handle_info(@add_peer_request, transport, state) do
+    Logger.info("sending request to add me as a peer")
+    local_server_host = Application.get_env(:oniichain, OniichainWeb.Endpoint)[:url][:host]
+    local_server_port = Application.get_env(:oniichain, OniichainWeb.Endpoint)[:http][:port]
+    GenSocketClient.push(transport, "p2p", @add_peer_request, %{host: local_server_host, port: local_server_port})
     {:ok, state}
   end
 

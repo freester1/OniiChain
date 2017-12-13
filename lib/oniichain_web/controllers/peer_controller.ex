@@ -7,7 +7,10 @@ defmodule OniichainWeb.PeerController do
   def add_peer(conn, peer_data) do
     host = peer_data["host"]
     port = peer_data["port"]
-    Oniichain.P2pSessionManager.connect(host, port)
+    result = Oniichain.P2pSessionManager.connect(host, port)
+    if result == :fail do
+      raise Oniichain.ErrorAlreadyConnected
+    end
     render(conn, "200.json", %{})
   end
 

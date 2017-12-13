@@ -3,6 +3,11 @@ defmodule Oniichain.P2pSessionManager do
   Oversees clients for each p2p session, using them to send messages.
   """
 
+  # @query_latest_block Oniichain.P2pMessage.query_latest_block
+  # @query_all_blocks   Oniichain.P2pMessage.query_all_blocks
+  # @update_block_chain Oniichain.P2pMessage.update_block_chain
+  @add_peer_request   Oniichain.P2pMessage.add_peer_request
+
   def connect(host, port) do
     already_connected = :ets.tab2list(:peers)
       |> Enum.reduce(false, fn(record, acc) ->
@@ -15,11 +20,14 @@ defmodule Oniichain.P2pSessionManager do
           end
         end
       end)
+      require IEx; IEx.pry
       if not already_connected do
         {:ok, pid} = Oniichain.P2pClientHandler.start_link(host, port)
         :ets.insert(:peers, {pid, %{host: host, port: port}})
+        Process.send(pid, @add_peer_request, [])
+        :ok
       else
-        raise Oniichain.ErrorAlreadyConnected
+        :fail
       end
   end
 
