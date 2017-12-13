@@ -1,7 +1,7 @@
 defmodule Oniichan.P2pSessionManagerTest do
   use ExUnit.Case, async: false
   import Oniichain.TestUtil, only: [reset_db: 0]
-  import Oniichain.P2pSessionManager, only: [connect: 2]
+  import Oniichain.P2pSessionManager, only: [connect: 2, terminate_session: 1]
   setup() do
     reset_db()
     :ok
@@ -17,6 +17,15 @@ defmodule Oniichan.P2pSessionManagerTest do
     test "does not add the same server twice" do
       assert connect("localhost", 44444) == :ok
       assert connect("localhost", 44444) == :fail
+    end
+  end
+
+  describe("terminate") do
+    test "removes the given pid from the ets table" do
+      {:ok, pid} = Oniichain.P2pClientHandler.start_link("localhost", 9999)
+      :ets.insert(:peers, {pid, %{}})
+      terminate_session(pid)
+      assert :ets.tab2list(:peers) |> length == 0
     end
   end
 end
