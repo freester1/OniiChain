@@ -1,5 +1,7 @@
 # Oniichain
 
+[![Build Status](https://jenkins.baited.me/job/Oniichain/badge/icon)](https://jenkins.baited.me/job/Oniichain/)
+
 **TODO: Add description**
 ## Setup
 get dependencies
