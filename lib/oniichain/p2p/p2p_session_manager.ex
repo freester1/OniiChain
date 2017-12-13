@@ -38,7 +38,6 @@ defmodule Oniichain.P2pSessionManager do
   end
 
   def terminate_session(pid) do
-    require IEx; IEx.pry
     :ets.delete(:peers, pid)
     GenServer.stop(pid)
   end

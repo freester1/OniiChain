@@ -68,7 +68,6 @@ defmodule Oniichain.P2pClientHandler do
 
   def handle_reply("p2p", _ref, %{"response" => %{"type" => @connection_error}} = payload, _transport, state) do
     Logger.info("connection to server failed...")
-    # alert session manager to kill self
     Oniichain.P2pSessionManager.terminate_session(self())
     {:ok, state}
   end

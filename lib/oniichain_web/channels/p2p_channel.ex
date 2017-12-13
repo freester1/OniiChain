@@ -14,7 +14,6 @@ defmodule OniichainWeb.P2pChannel do
   end
 
   def handle_info(_message, socket) do
-    require IEx; IEx.pry
     {:noreply, socket}
   end
 
@@ -39,7 +38,6 @@ defmodule OniichainWeb.P2pChannel do
   end
 
   def handle_in(event, payload, socket) do
-    require IEx; IEx.pry
     Logger.warn("unhandled event #{event} #{inspect payload}")
     {:noreply, socket}
   end
