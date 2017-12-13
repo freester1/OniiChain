@@ -9,22 +9,20 @@ defmodule Oniichain.P2pSessionManager do
   @add_peer_request   Oniichain.P2pMessage.add_peer_request
 
   def connect(host, port) do
-    already_connected = :ets.tab2list(:peers)
-      |> Enum.reduce(false, fn(record, acc) ->
+    already_connected = :ets.tab2list(:peers) |> Enum.reduce(false, fn(record, acc) ->
         if acc == false do
           peer_map = record |> elem(1)
-          if peer_map["host"] == host && peer_map["port"] == port do
+          if peer_map[:host] == host && peer_map[:port] == port do
             true
           else
             false
           end
         end
       end)
-      require IEx; IEx.pry
+
       if not already_connected do
         {:ok, pid} = Oniichain.P2pClientHandler.start_link(host, port)
         :ets.insert(:peers, {pid, %{host: host, port: port}})
-        Process.send(pid, @add_peer_request, [])
         :ok
       else
         :fail

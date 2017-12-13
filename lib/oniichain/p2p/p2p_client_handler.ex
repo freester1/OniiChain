@@ -12,6 +12,8 @@ defmodule Oniichain.P2pClientHandler do
   @query_all_blocks   Oniichain.P2pMessage.query_all_blocks
   @update_block_chain Oniichain.P2pMessage.update_block_chain
   @add_peer_request   Oniichain.P2pMessage.add_peer_request
+  @connection_error   Oniichain.P2pMessage.connection_error
+  @connection_success Oniichain.P2pMessage.connection_success
 
   def start_link(host, port) do
     GenSocketClient.start_link(
@@ -38,7 +40,8 @@ defmodule Oniichain.P2pClientHandler do
   end
 
   def handle_joined(topic, _payload, _transport, state) do
-    Logger.info("joined the topic #{topic}")
+    Logger.info("joined the topic #{topic}. Attempting to get client connection from remote host...")
+    Process.send(self(), @add_peer_request, [])
     {:ok, state}
   end
 
@@ -49,23 +52,25 @@ defmodule Oniichain.P2pClientHandler do
 
   def handle_channel_closed(topic, payload, _transport, state) do
     Logger.error("disconnected from the topic #{topic}: #{inspect payload}. Attempting to rejoin...")
-    Process.send_after(self(), {:join, topic}, :timer.seconds(1))
+    Process.send_after(self(), {:join, topic}, :timer.seconds(2))
     {:ok, state}
   end
 
   def handle_message(topic, event, payload, _transport, state) do
-    Logger.warn("message on topic #{topic}: #{event} #{inspect payload}")
+    Logger.info("message on topic #{topic}: #{event} #{inspect payload}")
     {:ok, state}
   end
 
-  def handle_reply("p2p", _ref, %{"status" => "ok"} = payload, _transport, state) do
+  def handle_reply("p2p", _ref, %{"response" => %{"type" => @connection_success}}, _transport, state) do
     Logger.info("server ack ##{inspect payload["response"]}")
     {:ok, state}
   end
 
-  # def handle_reply("p2p", _ref, %{"status" => "fail"} = payload, _transport, state) do
-
-  # end
+  def handle_reply("p2p", _ref, %{"response" => %{"type" => @connection_error}}, _transport, state) do
+    Logger.info("connection to server failed...")
+    # alert session manager to kill self
+    {:ok, state}
+  end
 
   def handle_reply(topic, _ref, payload, _transport, state) do
     Logger.warn("reply on topic #{topic}: #{inspect payload}")

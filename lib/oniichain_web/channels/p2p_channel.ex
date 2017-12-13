@@ -14,6 +14,7 @@ defmodule OniichainWeb.P2pChannel do
   end
 
   def handle_info(_message, socket) do
+    require IEx; IEx.pry
     {:noreply, socket}
   end
 
@@ -29,15 +30,16 @@ defmodule OniichainWeb.P2pChannel do
 
   def handle_in(@add_peer_request, payload, socket) do
     Logger.info("attempting to connect to #{inspect payload}...")
-    result = Oniichain.P2pSessionManager.connect(payload[:host], payload[:port])
+    result = Oniichain.P2pSessionManager.connect(payload["host"], payload["port"])
     if result == :fail do
-       {:reply, {:ok, %{type: @connection_error}}, socket}
+      {:reply, {:ok, %{type: @connection_error}}, socket}
     else
       {:reply, {:ok, %{type: @connection_success}}, socket}
     end
   end
 
   def handle_in(event, payload, socket) do
+    require IEx; IEx.pry
     Logger.warn("unhandled event #{event} #{inspect payload}")
     {:noreply, socket}
   end

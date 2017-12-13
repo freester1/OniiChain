@@ -16,5 +16,5 @@ defmodule Oniichain.P2pMessage do
   def add_peer_request   , do: @add_peer_request
   def already_connected  , do: @already_connected
   def connection_error   , do: @connection_error
-  def connection_succes  , do: @connection_success
+  def connection_success , do: @connection_success
 end
