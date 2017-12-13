@@ -61,14 +61,15 @@ defmodule Oniichain.P2pClientHandler do
     {:ok, state}
   end
 
-  def handle_reply("p2p", _ref, %{"response" => %{"type" => @connection_success}}, _transport, state) do
+  def handle_reply("p2p", _ref, %{"response" => %{"type" => @connection_success}} = payload, _transport, state) do
     Logger.info("server ack ##{inspect payload["response"]}")
     {:ok, state}
   end
 
-  def handle_reply("p2p", _ref, %{"response" => %{"type" => @connection_error}}, _transport, state) do
+  def handle_reply("p2p", _ref, %{"response" => %{"type" => @connection_error}} = payload, _transport, state) do
     Logger.info("connection to server failed...")
     # alert session manager to kill self
+    Oniichain.P2pSessionManager.terminate_session(self())
     {:ok, state}
   end
 

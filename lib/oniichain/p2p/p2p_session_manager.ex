@@ -36,4 +36,9 @@ defmodule Oniichain.P2pSessionManager do
       Process.send(pid, message, [])
     end)
   end
+
+  def terminate_session(pid) do
+    :ets.delete(:peers, pid)
+    GenServer.stop(pid)
+  end
 end
