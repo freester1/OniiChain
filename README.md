@@ -3,7 +3,7 @@
 [![Build Status](https://jenkins.baited.me/job/Oniichain/badge/icon)](https://jenkins.baited.me/job/Oniichain/)
 
 This is a basic blockchain implementation in elixir
-Features:
+### Features ###
 - disc-backed block chain stored in mnesia
 - bi-directional p2p connection via websocket and phoenix channels
 - basic REST api to add and remove blocks
