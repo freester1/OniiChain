@@ -1,2 +1,3 @@
  - flesh p2p sync logic, broadcasting stuff
  - unit test block service functions, websocket functionality
+
