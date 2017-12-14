@@ -19,7 +19,6 @@ defmodule Oniichain.P2pSessionManager do
           end
         end
       end)
-
       if not already_connected do
         {:ok, pid} = Oniichain.P2pClientHandler.start_link(host, port)
         :ets.insert(:peers, {pid, %{host: host, port: port}})

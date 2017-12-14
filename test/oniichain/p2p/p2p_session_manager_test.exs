@@ -20,7 +20,7 @@ defmodule Oniichan.P2pSessionManagerTest do
     end
   end
 
-  describe("terminate") do
+  describe("terminate_session") do
     test "removes the given pid from the ets table" do
       {:ok, pid} = Oniichain.P2pClientHandler.start_link("localhost", 9999)
       :ets.insert(:peers, {pid, %{}})
