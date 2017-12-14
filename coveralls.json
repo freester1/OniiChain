@@ -12,6 +12,6 @@
 	"lib/oniichain_web/channels/p2p_channel.ex",
 	"lib/oniichain_web/channels/p2p_socket.ex",
   	"lib/oniichain/error/already_connected_error.ex",
-	"lib/oniichain/p2p/p2p_message.ex"	
-]
+	"lib/oniichain/p2p/p2p_message.ex"
+	]
 }
