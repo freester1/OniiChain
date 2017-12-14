@@ -9,9 +9,9 @@
 	"lib/oniichain_web/router.ex",
 	"lib/oniichain_web/views/error_helpers.ex",
 	"lib/oniichain_web/views/error_view.ex",
-	"lib/oniichain_web/channels/p2p_channel.ex",
 	"lib/oniichain_web/channels/p2p_socket.ex",
-  	"lib/oniichain/error/already_connected_error.ex",
-	"lib/oniichain/p2p/p2p_message.ex"
+  "lib/oniichain/error/already_connected_error.ex",
+	"lib/oniichain/p2p/p2p_message.ex",
+	"lib/oniichain/p2p/p2p_client_handler.ex"
 	]
 }
