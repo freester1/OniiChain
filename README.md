@@ -1,7 +1,5 @@
 # Oniichain
 
-[![Build Status](https://jenkins.baited.me/job/Oniichain/badge/icon)](https://jenkins.baited.me/job/Oniichain/)
-
 This is a basic blockchain implementation in elixir
 ### Features ###
 - disk-backed block chain stored in mnesia
