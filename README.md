@@ -1,4 +1,4 @@
-# Elixir Block Chain
+# Elixir Block Chain - Oniichain
 
 This is a basic blockchain implementation in Elixir.
 
