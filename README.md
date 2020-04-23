@@ -1,6 +1,7 @@
-# Oniichain
+# Elixir Block Chain
 
-This is a basic blockchain implementation in elixir
+This is a basic blockchain implementation in Elixir.
+
 ### Features ###
 - disk-backed block chain stored in mnesia
 - bi-directional p2p connection via websocket and phoenix channels
@@ -41,3 +42,4 @@ get all peers:
 curl localhost:4000/oniichain/v1/peers
 ```
 upon adding, connections between peers are established via websocket.
+
